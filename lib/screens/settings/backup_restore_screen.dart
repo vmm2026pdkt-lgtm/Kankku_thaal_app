@@ -59,10 +59,10 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
     if (confirmed != true) return;
 
     final result = await FilePicker.pickFiles(type: FileType.custom, allowedExtensions: ['json']);
-    if (result == null || result.files.single.path == null) return;
+    if (result == null || result.single.path == null) return;
 
     await _runBusy(() async {
-      final res = await BackupService.instance.restoreFromFile(result.files.single.path!);
+      final res = await BackupService.instance.restoreFromFile(result.single.path!);
       if (mounted) {
         context.read<TransactionProvider>();
         context.read<CategoryProvider>();
