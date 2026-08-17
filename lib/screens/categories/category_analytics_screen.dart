@@ -109,10 +109,16 @@ class CategoryAnalyticsScreen extends StatelessWidget {
                         Expanded(
                           child: Text(cat?.name ?? 'மற்றவை', style: const TextStyle(fontWeight: FontWeight.w600)),
                         ),
-                        Text('$txnCount பரிவர்த்தனை', style: Theme.of(context).textTheme.bodySmall),
                         const SizedBox(width: 10),
-                        Text('${AppHelpers.formatCurrency(e.value)} — ${pct.toStringAsFixed(0)}%',
-                            style: const TextStyle(fontWeight: FontWeight.bold)),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text('$txnCount பரிவர்த்தனை', style: Theme.of(context).textTheme.bodySmall),
+                            const SizedBox(height: 2),
+                            Text('${AppHelpers.formatCurrency(e.value)} — ${pct.toStringAsFixed(0)}%',
+                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                          ],
+                        ),
                       ],
                     ),
                   ),

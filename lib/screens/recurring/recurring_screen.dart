@@ -69,11 +69,18 @@ class RecurringScreen extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            '${r.type == 'income' ? '+' : '-'} ${AppHelpers.formatCurrency(r.amount)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: r.type == 'income' ? AppTheme.incomeColor : AppTheme.expenseColor,
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 100),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                '${r.type == 'income' ? '+' : '-'} ${AppHelpers.formatCurrency(r.amount)}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: r.type == 'income' ? AppTheme.incomeColor : AppTheme.expenseColor,
+                                ),
+                              ),
                             ),
                           ),
                           Switch(

@@ -155,20 +155,28 @@ class _CategoryGrid extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text('"${c.name}" பயன்பாட்டில் உள்ளது'),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('பரிவர்த்தனைகளை இந்த வகைக்கு மாற்றவும்:'),
-              const SizedBox(height: 12),
-              ...others.map((o) => ListTile(
-                    leading: Icon(AppConstants.iconFor(o.icon), color: AppHelpers.colorFromHex(o.color)),
-                    title: Text(o.name),
-                    onTap: () => Navigator.pop(ctx, o),
-                  )),
-            ],
+        content: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.5),
+          child: SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('பரிவர்த்தனைகளை இந்த வகைக்கு மாற்றவும்:'),
+                const SizedBox(height: 12),
+                Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: others.map((o) => ListTile(
+                          leading: Icon(AppConstants.iconFor(o.icon), color: AppHelpers.colorFromHex(o.color)),
+                          title: Text(o.name),
+                          onTap: () => Navigator.pop(ctx, o),
+                        )).toList(),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         actions: [TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('ரத்து'))],
