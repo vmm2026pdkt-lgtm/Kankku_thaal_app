@@ -50,7 +50,7 @@ class AppTheme {
         elevation: 3,
         height: 68,
         labelTextStyle: WidgetStateProperty.all(
-          GoogleFonts.notoSansTamil(fontSize: 12, fontWeight: FontWeight.w600),
+          GoogleFonts.notoSansTamil(fontSize: 10.5, fontWeight: FontWeight.w600),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -100,7 +100,7 @@ class AppTheme {
         elevation: 3,
         height: 68,
         labelTextStyle: WidgetStateProperty.all(
-          GoogleFonts.notoSansTamil(fontSize: 12, fontWeight: FontWeight.w600),
+          GoogleFonts.notoSansTamil(fontSize: 10.5, fontWeight: FontWeight.w600),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(

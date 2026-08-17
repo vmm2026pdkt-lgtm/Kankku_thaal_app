@@ -78,14 +78,18 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
+                        reservedSize: 24,
                         getTitlesWidget: (value, meta) {
                           final idx = value.toInt();
                           if (idx < 0 || idx > 11) return const SizedBox();
+                          // Show every alternate month label to avoid crowding/overlap
+                          // on narrow mobile screens with wide Tamil glyphs.
+                          if (idx.isOdd) return const SizedBox();
                           final label = AppConstants.months[idx];
                           final shortLabel = label.length > 3 ? label.substring(0, 3) : label;
                           return Padding(
                             padding: const EdgeInsets.only(top: 6),
-                            child: Text(shortLabel, style: const TextStyle(fontSize: 9)),
+                            child: Text(shortLabel, style: const TextStyle(fontSize: 9), maxLines: 1, overflow: TextOverflow.clip),
                           );
                         },
                       ),

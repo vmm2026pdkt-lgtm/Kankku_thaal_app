@@ -154,12 +154,19 @@ class HomeTab extends StatelessWidget {
               const SizedBox(height: 24),
             ],
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('சமீபத்திய பரிவர்த்தனைகள்', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+                Expanded(
+                  child: Text(
+                    'சமீபத்திய பரிவர்த்தனைகள்',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
                 TextButton(
+                  style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 8)),
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TransactionsScreen())),
-                  child: const Text('அனைத்தையும் பார்க்க'),
+                  child: const Text('அனைத்தும்', maxLines: 1, overflow: TextOverflow.ellipsis),
                 ),
               ],
             ),
