@@ -1,0 +1,72 @@
+name: kanakku_thaal
+description: "கணக்கு தாள் - தமிழ் Personal Expense Tracker"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # State management
+  provider: ^6.1.2
+
+  # Local database
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Charts
+  fl_chart: ^0.68.0
+
+  # PDF
+  pdf: ^3.10.8
+  printing: ^5.12.0
+
+  # Excel export
+  excel: ^4.0.2
+
+  # File handling
+  path_provider: ^2.1.3
+  file_picker: ^8.0.3
+  share_plus: ^12.0.2
+
+  # Security
+  local_auth: ^2.2.0
+  crypto: ^3.0.3
+  flutter_secure_storage: ^9.2.2
+
+  # Notifications
+  flutter_local_notifications: ^17.1.2
+
+  # UI / UX
+  google_fonts: ^6.2.1
+  intl: ^0.19.0
+  uuid: ^4.4.0
+  fluttertoast: ^8.2.12
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.11
+
+flutter:
+  uses-material-design: true
+  # Noto Sans Tamil is loaded dynamically at runtime via the google_fonts
+  # package (see lib/utils/theme.dart) — no local font assets needed.
+  # If you prefer bundling the font offline (no network on first run),
+  # download NotoSansTamil-Regular.ttf / -Bold.ttf into assets/fonts/,
+  # then uncomment the block below and add it to pubspec.yaml:
+  #
+  # assets:
+  #   - assets/fonts/
+  # fonts:
+  #   - family: NotoSansTamil
+  #     fonts:
+  #       - asset: assets/fonts/NotoSansTamil-Regular.ttf
+  #       - asset: assets/fonts/NotoSansTamil-Bold.ttf
+  #         weight: 700
