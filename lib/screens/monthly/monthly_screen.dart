@@ -81,9 +81,11 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                         getTitlesWidget: (value, meta) {
                           final idx = value.toInt();
                           if (idx < 0 || idx > 11) return const SizedBox();
+                          final label = AppConstants.months[idx];
+                          final shortLabel = label.length > 3 ? label.substring(0, 3) : label;
                           return Padding(
                             padding: const EdgeInsets.only(top: 6),
-                            child: Text(AppConstants.months[idx].substring(0, 3), style: const TextStyle(fontSize: 9)),
+                            child: Text(shortLabel, style: const TextStyle(fontSize: 9)),
                           );
                         },
                       ),

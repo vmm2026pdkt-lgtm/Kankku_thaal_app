@@ -69,12 +69,19 @@ class TransactionTile extends StatelessWidget {
               ],
             ),
           ),
-          Text(
-            '${isIncome ? '+' : '-'} ${AppHelpers.formatCurrency(transaction.amount)}',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              color: isIncome ? AppTheme.incomeColor : AppTheme.expenseColor,
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 110),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerRight,
+              child: Text(
+                '${isIncome ? '+' : '-'} ${AppHelpers.formatCurrency(transaction.amount)}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: isIncome ? AppTheme.incomeColor : AppTheme.expenseColor,
+                ),
+              ),
             ),
           ),
         ],
