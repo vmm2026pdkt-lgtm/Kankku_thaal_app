@@ -5,6 +5,7 @@ import '../../providers/transaction_provider.dart';
 import '../../providers/category_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../widgets/summary_card.dart';
+import '../../widgets/animated_amount.dart';
 import '../../widgets/month_selector.dart';
 import '../../widgets/transaction_tile.dart';
 import '../../widgets/empty_state.dart';
@@ -78,6 +79,8 @@ class HomeTab extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
+            _BalanceHeroCard(balance: balance, income: income, expense: expense),
+            const SizedBox(height: 12),
             Row(
               children: [
                 Expanded(
@@ -86,6 +89,7 @@ class HomeTab extends StatelessWidget {
                     amount: income,
                     icon: Icons.arrow_downward_rounded,
                     color: AppTheme.incomeColor,
+                    gradient: AppTheme.incomeGradient,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -95,32 +99,27 @@ class HomeTab extends StatelessWidget {
                     amount: expense,
                     icon: Icons.arrow_upward_rounded,
                     color: AppTheme.expenseColor,
+                    gradient: AppTheme.expenseGradient,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            SummaryCard(
-              label: 'இருப்பு',
-              amount: balance,
-              icon: Icons.account_balance_wallet_rounded,
-              color: balance >= 0 ? AppTheme.incomeColor : AppTheme.expenseColor,
-            ),
             const SizedBox(height: 24),
             if (income > 0 || expense > 0) ...[
-              Text('வருமானம் Vs செலவு', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+              Text('வருமானம் Vs செலவு', style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 12),
               Container(
-                height: 180,
-                padding: const EdgeInsets.all(16),
+                height: 190,
+                padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardTheme.color,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                  boxShadow: AppTheme.softShadow(dark: Theme.of(context).brightness == Brightness.dark),
                 ),
                 child: BarChart(
                   BarChartData(
                     alignment: BarChartAlignment.spaceAround,
-                    maxY: (income > expense ? income : expense) * 1.2 + 1,
+                    maxY: (income > expense ? income : expense) * 1.25 + 1,
                     titlesData: FlTitlesData(
                       leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                       topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -131,8 +130,8 @@ class HomeTab extends StatelessWidget {
                           getTitlesWidget: (value, meta) {
                             final label = value == 0 ? 'வருமானம்' : 'செலவு';
                             return Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: Text(label, style: const TextStyle(fontSize: 12)),
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                             );
                           },
                         ),
@@ -142,13 +141,33 @@ class HomeTab extends StatelessWidget {
                     borderData: FlBorderData(show: false),
                     barGroups: [
                       BarChartGroupData(x: 0, barRods: [
-                        BarChartRodData(toY: income, color: AppTheme.incomeColor, width: 40, borderRadius: BorderRadius.circular(8)),
+                        BarChartRodData(
+                          toY: income,
+                          width: 44,
+                          borderRadius: BorderRadius.circular(12),
+                          gradient: const LinearGradient(
+                            colors: AppTheme.incomeGradient,
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
                       ]),
                       BarChartGroupData(x: 1, barRods: [
-                        BarChartRodData(toY: expense, color: AppTheme.expenseColor, width: 40, borderRadius: BorderRadius.circular(8)),
+                        BarChartRodData(
+                          toY: expense,
+                          width: 44,
+                          borderRadius: BorderRadius.circular(12),
+                          gradient: const LinearGradient(
+                            colors: AppTheme.expenseGradient,
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
                       ]),
                     ],
                   ),
+                  duration: const Duration(milliseconds: 700),
+                  curve: Curves.easeOutCubic,
                 ),
               ),
               const SizedBox(height: 24),
@@ -182,6 +201,100 @@ class HomeTab extends StatelessWidget {
               ...recent.map((t) => TransactionTile(transaction: t, category: lookup[t.categoryId])),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// _BalanceHeroCard — an Apple-Wallet-style gradient hero card that shows
+/// the current month's balance prominently, with income/expense mini-stats.
+class _BalanceHeroCard extends StatelessWidget {
+  final double balance;
+  final double income;
+  final double expense;
+
+  const _BalanceHeroCard({required this.balance, required this.income, required this.expense});
+
+  @override
+  Widget build(BuildContext context) {
+    final positive = balance >= 0;
+    final gradient = positive ? AppTheme.primaryGradient : AppTheme.expenseGradient;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 22, 20, 20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: gradient,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+        boxShadow: [
+          BoxShadow(color: gradient.last.withOpacity(0.35), blurRadius: 24, offset: const Offset(0, 12), spreadRadius: -6),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.account_balance_wallet_rounded, color: Colors.white.withOpacity(0.85), size: 18),
+              const SizedBox(width: 6),
+              Text(
+                'இந்த மாத இருப்பு',
+                style: TextStyle(color: Colors.white.withOpacity(0.85), fontSize: 13, fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: AnimatedAmount(
+              amount: balance,
+              style: const TextStyle(color: Colors.white, fontSize: 34, fontWeight: FontWeight.w800, letterSpacing: -0.8),
+            ),
+          ),
+          const SizedBox(height: 18),
+          Container(height: 1, color: Colors.white.withOpacity(0.18)),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(child: _heroStat(context, Icons.arrow_downward_rounded, 'வருமானம்', income)),
+              Container(width: 1, height: 30, color: Colors.white.withOpacity(0.18)),
+              Expanded(child: _heroStat(context, Icons.arrow_upward_rounded, 'செலவு', expense)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _heroStat(BuildContext context, IconData icon, String label, double value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.white.withOpacity(0.85), size: 15),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(label, style: TextStyle(color: Colors.white.withOpacity(0.75), fontSize: 11)),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    AppHelpers.formatCurrency(value),
+                    maxLines: 1,
+                    style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

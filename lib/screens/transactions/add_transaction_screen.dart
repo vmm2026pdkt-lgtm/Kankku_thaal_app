@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../models/transaction_model.dart';
@@ -69,8 +70,12 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
       _amountError = amountErr;
       _categoryError = _categoryId == null ? 'வகையை தேர்ந்தெடுக்கவும்' : null;
     });
-    if (amountErr != null || _categoryId == null) return;
+    if (amountErr != null || _categoryId == null) {
+      HapticFeedback.mediumImpact();
+      return;
+    }
 
+    HapticFeedback.lightImpact();
     final amount = AppHelpers.parseAmount(_amountController.text)!;
     final txnProvider = context.read<TransactionProvider>();
 

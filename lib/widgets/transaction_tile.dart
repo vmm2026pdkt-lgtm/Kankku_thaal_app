@@ -32,14 +32,18 @@ class TransactionTile extends StatelessWidget {
     final isIncome = transaction.isIncome;
 
     final content = Container(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardTheme.color,
+        borderRadius: BorderRadius.circular(AppTheme.radiusSm + 4),
+      ),
       child: Row(
         children: [
           Container(
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.15),
+              color: color.withOpacity(0.14),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Icon(icon, color: color, size: 22),
@@ -89,23 +93,41 @@ class TransactionTile extends StatelessWidget {
     );
 
     if (onEdit == null && onDelete == null) {
-      return InkWell(borderRadius: BorderRadius.circular(14), onTap: onTap, child: content);
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppTheme.radiusSm + 4),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(onTap: onTap, child: content),
+          ),
+        ),
+      );
     }
 
-    return Dismissible(
-      key: ValueKey(transaction.id),
-      background: _swipeBg(alignStart: true, icon: Icons.edit_rounded, color: Colors.blue),
-      secondaryBackground: _swipeBg(alignStart: false, icon: Icons.delete_rounded, color: Colors.red),
-      confirmDismiss: (direction) async {
-        if (direction == DismissDirection.startToEnd) {
-          onEdit?.call();
-          return false;
-        } else {
-          return await _confirmDelete(context);
-        }
-      },
-      onDismissed: (_) => onDelete?.call(),
-      child: InkWell(borderRadius: BorderRadius.circular(14), onTap: onTap, child: content),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Dismissible(
+        key: ValueKey(transaction.id),
+        background: _swipeBg(alignStart: true, icon: Icons.edit_rounded, color: Colors.blue),
+        secondaryBackground: _swipeBg(alignStart: false, icon: Icons.delete_rounded, color: Colors.red),
+        confirmDismiss: (direction) async {
+          if (direction == DismissDirection.startToEnd) {
+            onEdit?.call();
+            return false;
+          } else {
+            return await _confirmDelete(context);
+          }
+        },
+        onDismissed: (_) => onDelete?.call(),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppTheme.radiusSm + 4),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(onTap: onTap, child: content),
+          ),
+        ),
+      ),
     );
   }
 
@@ -113,7 +135,7 @@ class TransactionTile extends StatelessWidget {
     return Container(
       alignment: alignStart ? Alignment.centerLeft : Alignment.centerRight,
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(color: color.withOpacity(0.15), borderRadius: BorderRadius.circular(14)),
+      decoration: BoxDecoration(color: color.withOpacity(0.15), borderRadius: BorderRadius.circular(AppTheme.radiusSm + 4)),
       child: Icon(icon, color: color),
     );
   }
