@@ -44,7 +44,7 @@ class AppConstants {
     {'name': 'வாகன பராமரிப்பு', 'icon': 'build', 'color': '#607D8B'},
     {'name': 'மருத்துவம்', 'icon': 'local_hospital', 'color': '#E91E63'},
     {'name': 'கல்வி', 'icon': 'school', 'color': '#3F51B5'},
-    {'name': 'மின்சாரம்', 'icon': 'bolt', 'color': '#FFC107'},
+    {'name': 'மின்சாரம்', 'icon': 'bolt', 'color': '#F59E0B'},
     {'name': 'வாடகை', 'icon': 'apartment', 'color': '#009688'},
     {'name': 'ஆடை', 'icon': 'checkroom', 'color': '#9C27B0'},
     {'name': 'தொலைபேசி', 'icon': 'phone_android', 'color': '#00BCD4'},

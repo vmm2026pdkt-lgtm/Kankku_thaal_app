@@ -184,13 +184,19 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               children: categories.map((c) {
                 final selected = c.id == _categoryId;
                 final color = AppHelpers.colorFromHex(c.color);
+                final defaultTextColor = Theme.of(context).textTheme.bodyMedium?.color;
                 return ChoiceChip(
                   selected: selected,
                   onSelected: (_) => setState(() => _categoryId = c.id),
                   avatar: Icon(AppConstants.iconFor(c.icon), size: 16, color: selected ? Colors.white : color),
                   label: Text(c.name),
                   selectedColor: color,
-                  labelStyle: TextStyle(color: selected ? Colors.white : null),
+                  backgroundColor: color.withOpacity(0.12),
+                  side: BorderSide.none,
+                  labelStyle: TextStyle(
+                    color: selected ? Colors.white : defaultTextColor,
+                    fontWeight: FontWeight.w600,
+                  ),
                 );
               }).toList(),
             ),

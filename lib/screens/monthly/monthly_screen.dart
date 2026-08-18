@@ -70,7 +70,10 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                 BarChartData(
                   maxY: maxVal * 1.2,
                   gridData: const FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
+                  borderData: FlBorderData(
+                    show: true,
+                    border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1)),
+                  ),
                   titlesData: FlTitlesData(
                     leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                     topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -98,11 +101,31 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                   barGroups: List.generate(12, (i) {
                     final (income, expense) = monthlyData[i];
                     return BarChartGroupData(x: i, barRods: [
-                      BarChartRodData(toY: income, color: AppTheme.incomeColor, width: 6, borderRadius: BorderRadius.circular(3)),
-                      BarChartRodData(toY: expense, color: AppTheme.expenseColor, width: 6, borderRadius: BorderRadius.circular(3)),
-                    ], barsSpace: 3);
+                      BarChartRodData(
+                        toY: income,
+                        width: 7,
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4)),
+                        gradient: const LinearGradient(
+                          colors: AppTheme.incomeGradient,
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ),
+                      ),
+                      BarChartRodData(
+                        toY: expense,
+                        width: 7,
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4)),
+                        gradient: const LinearGradient(
+                          colors: AppTheme.expenseGradient,
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ),
+                      ),
+                    ], barsSpace: 4);
                   }),
                 ),
+                duration: const Duration(milliseconds: 700),
+                curve: Curves.easeOutCubic,
               ),
             ),
             const SizedBox(height: 20),

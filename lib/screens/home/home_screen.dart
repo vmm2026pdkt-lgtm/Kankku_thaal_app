@@ -138,13 +138,18 @@ class HomeTab extends StatelessWidget {
                       ),
                     ),
                     gridData: const FlGridData(show: false),
-                    borderData: FlBorderData(show: false),
+                    borderData: FlBorderData(
+                      show: true,
+                      border: Border(
+                        bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+                      ),
+                    ),
                     barGroups: [
                       BarChartGroupData(x: 0, barRods: [
                         BarChartRodData(
                           toY: income,
                           width: 44,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
                           gradient: const LinearGradient(
                             colors: AppTheme.incomeGradient,
                             begin: Alignment.bottomCenter,
@@ -156,7 +161,7 @@ class HomeTab extends StatelessWidget {
                         BarChartRodData(
                           toY: expense,
                           width: 44,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
                           gradient: const LinearGradient(
                             colors: AppTheme.expenseGradient,
                             begin: Alignment.bottomCenter,
